@@ -54,7 +54,7 @@ public class EventController extends KeyAdapter implements ActionListener {
 		if (!gameOver) {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_SPACE:
-				handleMove(Direction.DOWN);
+				handleMove(Direction.JUMPDOWN);
 				break;
 			case KeyEvent.VK_LEFT:
 				handleMove(Direction.LEFT);
