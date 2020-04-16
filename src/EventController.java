@@ -56,7 +56,12 @@ public class EventController extends KeyAdapter implements ActionListener {
 			case KeyEvent.VK_SPACE:
 				handleMove(Direction.DOWN);
 				break;
-			// HANDLE other keystrokes here
+			case KeyEvent.VK_LEFT:
+				handleMove(Direction.LEFT);
+				break;
+			case KeyEvent.VK_RIGHT:
+				handleMove(Direction.RIGHT);
+				break;
 
 			}
 		}
