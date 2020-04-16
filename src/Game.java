@@ -88,7 +88,7 @@ public class Game {
 	/** Updates the piece */
 	private void updatePiece() {
 		if (piece == null) {
-			// CREATE A NEW PIECE HERE
+			piece = new LShape(1, Grid.WIDTH/2 -1, grid);
 		}
 
 		// set Grid positions corresponding to frozen piece
