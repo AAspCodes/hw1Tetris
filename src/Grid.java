@@ -84,6 +84,16 @@ public class Grid {
 	 * the top row set to empty
 	 */
 	public void checkRows() {
+		for (int row = 0; row < HEIGHT; row++) {
+			boolean full_row = true;
+			for (int col = 0; col < WIDTH; col++) {
+				full_row = full_row && isSet(row,col);
+			}
+			if (full_row) {
+				// call method to clear the rows
+				//  move squares down, but how?
+			}
+		}
 	}
 
 	/**
