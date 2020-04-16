@@ -110,6 +110,16 @@ public class Grid {
 		}
 	}
 	
+	/**
+	 * Loop through the board starting at row: clearedRow, column: 0.
+	 * Left to Right, clearedRow to the top.
+	 * If the current square is empty and the above square is not empty
+	 * 		Then make current square's color the above square's color.
+	 * 		Make the above square's color EMPTY.
+	 * 
+	 * @param clearedRow
+	 * 		the row that was just cleared and the row to start looping from.
+	 */
 	private void moveRowsDown(int clearedRow) {
 		Square currentSquare, aboveSquare;
 		
