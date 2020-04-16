@@ -93,12 +93,34 @@ public class Grid {
 				// call method to clear the rows
 				clearRow(row);
 				//  move squares down, but how?
+				moveRowsDown(row);
 			}
 		}
 	}
 	private void clearRow(int row) {
 		for(int col = 0; col < WIDTH; col++) {
 			board[row][col].setColor(EMPTY);
+		}
+	}
+	
+	private void moveRowsDown(int clearedRow) {
+		Square currentSquare, aboveSquare;
+		
+		for (int row = clearedRow; row > 0; row--) {
+			for (int col = 0; col < WIDTH; col ++) {
+				
+				currentSquare = board[row][col];
+				aboveSquare = board[row - 1][col];
+				
+				// if the current squre is empty and the one above it is not empty, move it down
+				if ((currentSquare.getColor() == EMPTY) && (aboveSquare.getColor() != EMPTY)) {
+					
+					// put upper square color into the current square
+					currentSquare.setColor(aboveSquare.getColor());
+					// set the upper square's color to empty
+					aboveSquare.setColor(EMPTY);
+				}
+			}
 		}
 	}
 
