@@ -97,6 +97,7 @@ public class Grid {
 			}
 		}
 	}
+	
 	private void clearRow(int row) {
 		for(int col = 0; col < WIDTH; col++) {
 			board[row][col].setColor(EMPTY);
