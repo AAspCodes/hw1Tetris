@@ -115,9 +115,12 @@ public class Square {
 			case DOWN:
 				row = row + 1;
 				break;
-
-			// currently doesn't support moving LEFT or RIGHT
-			// MODIFY so that the Square moves appropriately
+			case LEFT:
+				col = col - 1;
+				break;
+			case RIGHT:
+				col = col + 1;
+				break;
 			}
 		}
 	}
