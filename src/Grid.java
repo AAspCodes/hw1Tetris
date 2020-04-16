@@ -98,6 +98,12 @@ public class Grid {
 		}
 	}
 	
+	/**
+	 * loop through one row
+	 * set each square's color to EMPTY(aka white)
+	 * @param row
+	 * 		the row to clear
+	 */	
 	private void clearRow(int row) {
 		for(int col = 0; col < WIDTH; col++) {
 			board[row][col].setColor(EMPTY);
