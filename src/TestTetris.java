@@ -3,19 +3,24 @@ import org.junit.Test;
 import java.awt.Color;
 public class TestTetris {
 	@Test
-	public void testCheckRows() {
-		Grid grid = new Grid();
-		// add a full row
-		for (int col = 0; col < Grid.WIDTH; col++) {
-			grid.set(Grid.HEIGHT - 1, col, Color.RED);
-		}
-		// add some colored squares above
-		grid.set(Grid.HEIGHT - 2, 0, Color.RED);
-		grid.set(Grid.HEIGHT - 2, 5, Color.RED);
-		grid.set(Grid.HEIGHT - 2, 8, Color.RED);
-		
-		// run checkRows
+	public void testSingleRowCheckRow() {
+		// single row check
+		Grid grid = new Grid();	
+		setupRowCheck(grid,1);
 		grid.checkRows();
+		checkRowCheck(grid);
+	}
+	
+	@Test
+	public void testDoubleRowCheckRows() {
+		// double row check
+		Grid grid = new Grid();
+		setupRowCheck(grid,2);
+		grid.checkRows();
+		checkRowCheck(grid);
+	}
+	
+	private static void checkRowCheck(Grid grid) {
 		
 		// all squares should empty except: (row: 19, col: 0)
 		//									(row: 19, col: 5)
@@ -37,7 +42,6 @@ public class TestTetris {
 				}
 			}
 		}
-		
 	}
 	
 	private static void setupRowCheck(Grid grid, int numOfRows) {
