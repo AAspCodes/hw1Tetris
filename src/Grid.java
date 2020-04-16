@@ -91,8 +91,14 @@ public class Grid {
 			}
 			if (full_row) {
 				// call method to clear the rows
+				clearRow(row);
 				//  move squares down, but how?
 			}
+		}
+	}
+	private void clearRow(int row) {
+		for(int col = 0; col < WIDTH; col++) {
+			board[row][col].setColor(EMPTY);
 		}
 	}
 
