@@ -39,4 +39,19 @@ public class TestTetris {
 		}
 		
 	}
+	
+	private static void setupRowCheck(Grid grid, int numOfRows) {
+		// add a two full rows
+		for (int row = Grid.HEIGHT - numOfRows ; row < Grid.HEIGHT; row++) {
+			for (int col = 0; col < Grid.WIDTH; col++) {
+				grid.set(row, col, Color.RED);
+			}
+		}
+		int foo = numOfRows + 1;
+		// add some colored squares above
+		grid.set(Grid.HEIGHT - foo, 0, Color.RED);
+		grid.set(Grid.HEIGHT - foo, 5, Color.RED);
+		grid.set(Grid.HEIGHT - foo, 8, Color.RED);
+	}
+	
 }
