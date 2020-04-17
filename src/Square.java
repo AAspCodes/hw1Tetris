@@ -113,13 +113,13 @@ public class Square {
 		if (canMove(direction)) {
 			switch (direction) {
 			case DOWN:
-				row = row + 1;
+				row++;
 				break;
 			case LEFT:
-				col = col - 1;
+				col--;
 				break;
 			case RIGHT:
-				col = col + 1;
+				col++;
 				break;
 			}
 		}
