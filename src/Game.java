@@ -52,7 +52,13 @@ public class Game {
 	 */
 	public void movePiece(Direction direction) {
 		if (piece != null) {
-			piece.move(direction);
+			if (direction == Direction.DROP) {
+				while (piece.canMove(Direction.DOWN)) {
+					piece.move(Direction.DOWN);
+				}
+			} else {
+				piece.move(direction);
+			}
 		}
 		updatePiece();
 		display.update();
