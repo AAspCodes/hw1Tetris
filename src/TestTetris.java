@@ -1,6 +1,7 @@
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import java.awt.Color;
+
 public class TestTetris {
 	@Test
 	public void testSingleRowCheckRow() {
@@ -57,5 +58,24 @@ public class TestTetris {
 		grid.set(Grid.HEIGHT - foo, 5, Color.RED);
 		grid.set(Grid.HEIGHT - foo, 8, Color.RED);
 	}
+	
+	
+	@Test
+	public static void testMovement() {
+		Grid grid = new Grid();
+		LShape peice = new LShape(1, Grid.WIDTH / 2 - 1, grid);
+		// can move left
+			// walls
+			// set peices
+		// can move right
+			// walls
+			// set peices
+		// can move down
+			// walls
+			// set peices
+		
+		
+	}
+
 	
 }
