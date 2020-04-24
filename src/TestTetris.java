@@ -1,6 +1,8 @@
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 import java.awt.Color;
+import java.awt.Point;
 
 public class TestTetris {
 	@Test
@@ -61,21 +63,83 @@ public class TestTetris {
 	
 	
 	@Test
-	public static void testMovement() {
-		Grid grid = new Grid();
-		LShape peice = new LShape(1, Grid.WIDTH / 2 - 1, grid);
-		// can move left
-			// walls
-			// set peices
-		// can move right
-			// walls
-			// set peices
-		// can move down
-			// walls
-			// set peices
+	public void testMovement() {
+
+		/**
+		 * 
+		 *  starting points = row: 0, col: 4
+		 *  				  row: 1, col: 4]
+		 *  				  row: 2, col: 4
+		 *  				  row: 2, col: 5]
+		 *  
+		 *  are x and y flipped?
+		 *  for some reason , x is vertical spacee and y in horizontal....
+		 */
+
+		assertFalse(wallTest(Direction.LEFT,3));
+		assertTrue(wallTest(Direction.LEFT, 4));
+		assertFalse(wallTest(Direction.RIGHT,3));
+		assertTrue(wallTest(Direction.RIGHT,4));
+		assertFalse(wallTest(Direction.RIGHT,3));
+		assertFalse(wallTest(Direction.DOWN,16));
+		assertTrue(wallTest(Direction.DOWN,17));
 		
+		// A set Square in the way test.
+		// assertTrue for can move, assertfalse for can't move.
+		assertFalse(setTest(Direction.LEFT, 0,3));
+		assertTrue(setTest(Direction.LEFT, 0, 2));
+		
+		assertFalse(setTest(Direction.RIGHT, 0, 5));
+		assertTrue(setTest(Direction.RIGHT, 0, 6));
+		
+
+		assertFalse(setTest(Direction.DOWN, 3, 5));
+		assertTrue(setTest(Direction.DOWN, 4, 5));
+
 		
 	}
-
+	private boolean wallTest(Direction dir, int safeMoves) {
+		Grid grid = new Grid();
+		LShape piece = new LShape(1, Grid.WIDTH / 2 - 1, grid);
+		for (int i = 0; i < safeMoves; i++) {
+			if (piece.canMove(dir)){
+				piece.move(dir);
+			}
+		}
+		// touching the wall after 4 moves
+		Point[] beforePos = piece.getLocations();
+		
+		if (piece.canMove(dir)){
+			piece.move(dir);
+		}
+		Point[] afterPos = piece.getLocations();
+		return checkSame(beforePos, afterPos);
+	}
+	
+	private boolean checkSame(Point[] before, Point[] after) {
+		for (int i = 0; i < before.length; i++) {
+			if (before[i].getX() == after[i].getX() && before[i].getY() == after[i].getY()) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+	private void printPositions(Point[] points, String label) {
+		for (Point p: points) {
+			System.out.println(label + p);
+		}
+	}
+	
+	private boolean setTest(Direction dir, int row, int col){
+		Grid grid = new Grid();
+		LShape piece = new LShape(1, Grid.WIDTH / 2 - 1, grid);
+		
+		// set square right next to the piece
+		grid.set(row, col, Color.BLACK);
+		return piece.canMove(dir);
+	}
+	
 	
 }
