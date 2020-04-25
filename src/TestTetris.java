@@ -26,8 +26,8 @@ public class TestTetris {
 	private static void checkRowCheck(Grid grid) {
 
 		// all squares should empty except: (row: 19, col: 0)
-		// (row: 19, col: 5)
-		// (row: 19, col 8)
+		//									(row: 19, col: 5)
+		// 									(row: 19, col 8)
 
 		for (int row = 0; row < Grid.HEIGHT; row++) {
 			for (int col = 0; col < Grid.WIDTH; col++) {
@@ -132,15 +132,17 @@ public class TestTetris {
 	@Test
 	public void testMovement() {
 		/**
-		 * starting points = row: 0, column: 4 row: 1, column: 4] row: 2, column: 4 row:
-		 * 2, column: 5]
+		 * starting points = row: 0, column: 4
+		 *  				 row: 1, column: 4
+		 *  				 row: 2, column: 4
+		 *    				 row:2, column: 5]
 		 * 
-		 * Strangely, the X and Y values of the Point Objects seem to be flipped. x is
-		 * vertical space and y in horizontal....
+		 * Strangely, the X and Y values of the Point Objects seem to be flipped. 
+		 * x is vertical and y in horizontal....
 		 */
 
 		// look for if hitting a wall stops movement
-		// The assertFalse stopped one before the wall and never get stopped.
+		// The assertFalse stopped one Square before the wall and never get stopped.
 		// The assertTrue hit the wall and got stopped.
 		assertFalse(wallTest(Direction.LEFT, 3));
 		assertTrue(wallTest(Direction.LEFT, 4));
