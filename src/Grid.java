@@ -84,6 +84,61 @@ public class Grid {
 	 * the top row set to empty
 	 */
 	public void checkRows() {
+		for (int row = 0; row < HEIGHT; row++) {
+			boolean full_row = true;
+			for (int col = 0; col < WIDTH; col++) {
+				full_row = full_row && isSet(row,col);
+			}
+			if (full_row) {
+				// call method to clear the rows
+				clearRow(row);
+				//  move squares down, but how?
+				moveRowsDown(row);
+			}
+		}
+	}
+	
+	/**
+	 * loop through one row
+	 * set each square's color to EMPTY(aka white)
+	 * @param row
+	 * 		the row to clear
+	 */	
+	private void clearRow(int row) {
+		for(int col = 0; col < WIDTH; col++) {
+			board[row][col].setColor(EMPTY);
+		}
+	}
+	
+	/**
+	 * Loop through the board starting at row: clearedRow, column: 0.
+	 * Left to Right, clearedRow to the top.
+	 * If the current square is empty and the above square is not empty
+	 * 		Then make current square's color the above square's color.
+	 * 		Make the above square's color EMPTY.
+	 * 
+	 * @param clearedRow
+	 * 		the row that was just cleared and the row to start looping from.
+	 */
+	private void moveRowsDown(int clearedRow) {
+		Square currentSquare, aboveSquare;
+		
+		for (int row = clearedRow; row > 0; row--) {
+			for (int col = 0; col < WIDTH; col ++) {
+				
+				currentSquare = board[row][col];
+				aboveSquare = board[row - 1][col];
+				
+				// if the current squre is empty and the one above it is not empty, move it down
+				if ((currentSquare.getColor() == EMPTY) && (aboveSquare.getColor() != EMPTY)) {
+					
+					// put upper square color into the current square
+					currentSquare.setColor(aboveSquare.getColor());
+					// set the upper square's color to empty
+					aboveSquare.setColor(EMPTY);
+				}
+			}
+		}
 	}
 
 	/**

@@ -68,28 +68,24 @@ public class LShape {
 	 *            the direction to move
 	 */
 	public void move(Direction direction) {
-		if (direction == Direction.JUMPDOWN) {
-			jumpDown();
-			return;
-		}
 		if (canMove(direction)) {
 			for (int i = 0; i < PIECE_COUNT; i++)
 				square[i].move(direction);
-		}
-		// if we couldn't move, see if because we're at the bottom
-		else if (direction == Direction.DOWN) {
+		
+			// if we couldn't move, see if because we're at the bottom
+		} else if (direction == Direction.DOWN) {
 			ableToMove = false;
 		}
 	}
 	
-	public void jumpDown() {
-		while (canMove(Direction.DOWN)) {
-			for (int i = 0; i < PIECE_COUNT; i++) {
-				square[i].move(Direction.DOWN);
-			}
-		}
-		ableToMove = false;
-	}
+//	public void jumpDown() {
+//		while (canMove(Direction.DOWN)) {
+//			for (int i = 0; i < PIECE_COUNT; i++) {
+//				square[i].move(Direction.DOWN);
+//			}
+//		}
+//		ableToMove = false;
+//	}
 	
 	/**
 	 * Returns the (row,col) grid coordinates occupied by this Piece
