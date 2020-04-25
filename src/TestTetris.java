@@ -8,48 +8,48 @@ public class TestTetris {
 	@Test
 	public void testSingleRowCheckRow() {
 		// single row check
-		Grid grid = new Grid();	
-		setupRowCheck(grid,1);
+		Grid grid = new Grid();
+		setupRowCheck(grid, 1);
 		grid.checkRows();
 		checkRowCheck(grid);
 	}
-	
+
 	@Test
 	public void testDoubleRowCheckRows() {
 		// double row check
 		Grid grid = new Grid();
-		setupRowCheck(grid,2);
+		setupRowCheck(grid, 2);
 		grid.checkRows();
 		checkRowCheck(grid);
 	}
-	
+
 	private static void checkRowCheck(Grid grid) {
-		
+
 		// all squares should empty except: (row: 19, col: 0)
-		//									(row: 19, col: 5)
-		//									(row: 19, col 8)
-		
+		// (row: 19, col: 5)
+		// (row: 19, col 8)
+
 		for (int row = 0; row < Grid.HEIGHT; row++) {
 			for (int col = 0; col < Grid.WIDTH; col++) {
-				if ( row != 19) {
+				if (row != 19) {
 					// all squares not in row 19 should be empty
-					assertTrue(!grid.isSet(row, col));
-				} else if ((col == 0) || (col == 5) || (col == 8)){
+					assertFalse("Fail state, wanted False, got True" + row + ", " + col, grid.isSet(row, col));
+				} else if ((col == 0) || (col == 5) || (col == 8)) {
 					// squares in row 19 and in either col: 0,5 or 8
 					// must be not empty
-					assertTrue(grid.isSet(row, col));
+					assertTrue("Fail state, wanted True, got False" + row + ", " + col, grid.isSet(row, col));
 				} else {
 					// squares in row 19 and NOT in either col: 0,5 or 8
 					// must be empty
-					assertTrue(!grid.isSet(row, col));
+					assertFalse("Fail state, wanted False, got True" + row + ", " + col, grid.isSet(row, col));
 				}
 			}
 		}
 	}
-	
+
 	private static void setupRowCheck(Grid grid, int numOfRows) {
-		// add a two full rows
-		for (int row = Grid.HEIGHT - numOfRows ; row < Grid.HEIGHT; row++) {
+		// add numOfRows full rows
+		for (int row = Grid.HEIGHT - numOfRows; row < Grid.HEIGHT; row++) {
 			for (int col = 0; col < Grid.WIDTH; col++) {
 				grid.set(row, col, Color.RED);
 			}
@@ -62,7 +62,6 @@ public class TestTetris {
 	}
 
 	@Test
-	public void testMovement() {
 	public void testNearFullGridRowCheck() {
 		// caution: This Test uses similar looking code to the other tests,
 		// but in an inverse way.
@@ -129,57 +128,61 @@ public class TestTetris {
 			}
 		}
 	}
+
+	@Test
+	public void testMovement() {
 		/**
+		 * starting points = row: 0, column: 4 row: 1, column: 4] row: 2, column: 4 row:
+		 * 2, column: 5]
 		 * 
-		 *  starting points = row: 0, col: 4
-		 *  				  row: 1, col: 4]
-		 *  				  row: 2, col: 4
-		 *  				  row: 2, col: 5]
-		 *  
-		 *  are x and y flipped?
-		 *  for some reason , x is vertical spacee and y in horizontal....
+		 * Strangely, the X and Y values of the Point Objects seem to be flipped. x is
+		 * vertical space and y in horizontal....
 		 */
 
-		assertFalse(wallTest(Direction.LEFT,3));
+		// look for if hitting a wall stops movement
+		// The assertFalse stopped one before the wall and never get stopped.
+		// The assertTrue hit the wall and got stopped.
+		assertFalse(wallTest(Direction.LEFT, 3));
 		assertTrue(wallTest(Direction.LEFT, 4));
-		assertFalse(wallTest(Direction.RIGHT,3));
-		assertTrue(wallTest(Direction.RIGHT,4));
-		assertFalse(wallTest(Direction.RIGHT,3));
-		assertFalse(wallTest(Direction.DOWN,16));
-		assertTrue(wallTest(Direction.DOWN,17));
-		
+
+		assertFalse(wallTest(Direction.RIGHT, 3));
+		assertTrue(wallTest(Direction.RIGHT, 4));
+
+		assertFalse(wallTest(Direction.DOWN, 16));
+		assertTrue(wallTest(Direction.DOWN, 17));
+
 		// A set Square in the way test.
-		// assertTrue for can move, assertfalse for can't move.
-		assertFalse(setTest(Direction.LEFT, 0,3));
+		// assertTrue for can move, assertFalse for can't move.
+		assertFalse(setTest(Direction.LEFT, 0, 3));
 		assertTrue(setTest(Direction.LEFT, 0, 2));
-		
+
 		assertFalse(setTest(Direction.RIGHT, 0, 5));
 		assertTrue(setTest(Direction.RIGHT, 0, 6));
-		
 
 		assertFalse(setTest(Direction.DOWN, 3, 5));
 		assertTrue(setTest(Direction.DOWN, 4, 5));
 
-		
 	}
+
 	private boolean wallTest(Direction dir, int safeMoves) {
 		Grid grid = new Grid();
 		LShape piece = new LShape(1, Grid.WIDTH / 2 - 1, grid);
+
 		for (int i = 0; i < safeMoves; i++) {
-			if (piece.canMove(dir)){
+			if (piece.canMove(dir)) {
 				piece.move(dir);
 			}
 		}
-		// touching the wall after 4 moves
-		Point[] beforePos = piece.getLocations();
-		
-		if (piece.canMove(dir)){
+		Point[] before = piece.getLocations();
+
+		if (piece.canMove(dir)) {
 			piece.move(dir);
 		}
-		Point[] afterPos = piece.getLocations();
-		return checkSame(beforePos, afterPos);
+
+		Point[] after = piece.getLocations();
+		return checkSame(before, after);
 	}
-	
+
 	private boolean checkSame(Point[] before, Point[] after) {
 		for (int i = 0; i < before.length; i++) {
 			if (before[i].getX() == after[i].getX() && before[i].getY() == after[i].getY()) {
@@ -190,20 +193,14 @@ public class TestTetris {
 		}
 		return true;
 	}
-	private void printPositions(Point[] points, String label) {
-		for (Point p: points) {
-			System.out.println(label + p);
-		}
-	}
-	
-	private boolean setTest(Direction dir, int row, int col){
+
+	private boolean setTest(Direction dir, int row, int col) {
 		Grid grid = new Grid();
 		LShape piece = new LShape(1, Grid.WIDTH / 2 - 1, grid);
-		
+
 		// set square right next to the piece
 		grid.set(row, col, Color.BLACK);
 		return piece.canMove(dir);
 	}
-	
-	
+
 }
