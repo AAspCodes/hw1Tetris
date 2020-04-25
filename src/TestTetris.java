@@ -60,11 +60,75 @@ public class TestTetris {
 		grid.set(Grid.HEIGHT - foo, 5, Color.RED);
 		grid.set(Grid.HEIGHT - foo, 8, Color.RED);
 	}
-	
-	
+
 	@Test
 	public void testMovement() {
+	public void testNearFullGridRowCheck() {
+		// caution: This Test uses similar looking code to the other tests,
+		// but in an inverse way.
+		
+		/**
+		 * Fill the entire grid except row: 0, col: 5
+		 * 							   row: 0, col: 6
+		 * 							   row: 10, col: 5
+		 * 							   row: 10, col: 6
+		 * 
+		 * run checkRows()
+		 * 
+		 * everything should be empty except: row: 18, col 5
+		 * 									  row: 18, col 6
+		 * 									  row: 19, col 5
+		 * 									  row: 19, col 6
+		 */
+		Grid grid = new Grid();
 
+		// make every Square Red
+		for (int row = 0; row < Grid.HEIGHT; row++) {
+			for (int col = 0; col < Grid.WIDTH; col++) {
+				grid.set(row, col, Color.RED);
+			}
+		}
+
+		setSquaresEmpty(grid, 0);
+		setSquaresEmpty(grid, 10);
+
+		grid.checkRows();
+
+		// check if checkRows() worked correctly.
+		for (int row = 0; row < Grid.HEIGHT; row++) {
+			for (int col = 0; col < Grid.WIDTH; col++) {
+				if (row != 19 && row != 18) {
+					// all squares not in row 19 should be empty
+					assertFalse("Fail state, wanted False, got True" + row + ", " + col, grid.isSet(row, col));
+				} else if ((col == 5) || (col == 6)) {
+					// must be not empty
+//					if (grid.isSet(row, col))
+					assertTrue("Fail state, wanted True, got False" + row + ", " + col, grid.isSet(row, col));
+
+				} else {
+					// must be empty
+					assertFalse("Fail state, wanted False, got True" + row + ", " + col, grid.isSet(row, col));
+				}
+			}
+		}
+	}
+
+	private static void setSquaresEmpty(Grid grid, int row) {
+		for (int i = 0; i < 10; i++) {
+			if (i != 5 && i != 6) {
+				grid.set(row, i, Color.WHITE);
+			}
+		}
+	}
+
+	// to be used to inspect Failures.
+	private void printFailState(Grid grid) {
+		for (int row = 0; row < grid.HEIGHT; row++) {
+			for (int col = 0; col < grid.WIDTH; col++) {
+				System.out.println("row: " + row + " col: " + col + " isSet?: " + grid.isSet(row, col));
+			}
+		}
+	}
 		/**
 		 * 
 		 *  starting points = row: 0, col: 4
